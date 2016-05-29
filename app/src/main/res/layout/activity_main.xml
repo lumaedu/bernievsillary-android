@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/flMainActivity"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <com.zkhaider.bernievshillary.widgets.TriangleBackgroundView
+        android:id="@+id/tv1"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        app:foregroundColor="@color/bernieColor"
+        app:backgroundColor="@android:color/transparent"/>
+
+    <LinearLayout
+        android:id="@+id/llBernie"
+        android:weightSum="2"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:src="@drawable/bernie_big"
+            android:layout_marginLeft="-56dp"
+            android:layout_marginStart="-56dp"
+            android:layout_weight="1"
+            android:layout_width="250dp"
+            android:layout_height="0dp"/>
+
+    </LinearLayout>
+
+    <com.zkhaider.bernievshillary.widgets.TriangleBackgroundView
+        android:id="@+id/tv2"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        app:foregroundColor="@android:color/transparent"
+        app:backgroundColor="@color/hillaryColor"/>
+
+    <LinearLayout
+        android:id="@+id/llHillary"
+        android:weightSum="2"
+        android:orientation="vertical"
+        android:gravity="bottom|end"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:src="@drawable/hillary_big"
+            android:layout_weight="1"
+            android:layout_marginEnd="-56dp"
+            android:layout_marginRight="-56dp"
+            android:layout_marginBottom="-56dp"
+            android:layout_width="250dp"
+            android:layout_height="0dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llText"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvBernie"
+            android:text="Bernie"
+            android:visibility="invisible"
+            android:textSize="32sp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/ivOr"
+            android:src="@drawable/or"
+            android:visibility="invisible"
+            android:layout_gravity="center"
+            android:layout_width="88dp"
+            android:layout_height="99dp"/>
+
+        <TextView
+            android:id="@+id/tvHillary"
+            android:text="Hillary"
+            android:visibility="invisible"
+            android:textSize="32sp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llGetStarted"
+        android:background="#EDEAE3"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp">
+
+        <TextView
+            android:id="@+id/tvGetStarted"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#04233D"
+            android:text="@string/decide_values"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btGetStarted"
+            android:text="@string/get_started"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/get_started_button"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/flContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</FrameLayout>

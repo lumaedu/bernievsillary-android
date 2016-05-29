@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Bernie Vs Hillary</string>
+    <string name="decide_values">10 quick questions help you decide which candidates shares YOUR
+        values
+    </string>
+    <string name="get_started">Get Started</string>
+</resources>
