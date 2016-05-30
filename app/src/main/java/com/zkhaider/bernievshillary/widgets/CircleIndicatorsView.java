@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.zkhaider.bernievshillary.R;
+import com.zkhaider.bernievshillary.widgets.listeners.ViewIndicator;
 
 import static android.widget.LinearLayout.HORIZONTAL;
 import static android.widget.LinearLayout.VERTICAL;

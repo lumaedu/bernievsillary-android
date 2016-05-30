@@ -51,6 +51,12 @@ public class QuestionsFragment extends Fragment {
     @Bind(R.id.llButtons)                           public LinearLayout llButtons;
 
     /**
+     * Views
+     */
+    @Bind(R.id.vOverscroll)                         public View vOverscroll;
+    @Bind(R.id.vNestedOverscroll)                   public View vNestedOverscroll;
+
+    /**
      * Buttons
      */
 
@@ -89,9 +95,34 @@ public class QuestionsFragment extends Fragment {
                 final View view = decor.getView();
                 if (offset > 0) {
                     // 'view' is currently being over-scrolled from the top.
+                    vOverscroll.setLayoutParams(new FrameLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            (int) (offset * 1.1)
+                    ));
+                    vOverscroll.requestLayout();
+
+                    vNestedOverscroll.setLayoutParams(new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            (int) offset
+                    ));
+                    vNestedOverscroll.requestLayout();
+
+
                 } else if (offset < 0) {
                     // 'view' is currently being over-scrolled from the bottom.
                 } else {
+
+                    vOverscroll.setLayoutParams(new FrameLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            0
+                    ));
+                    vOverscroll.requestLayout();
+
+                    vNestedOverscroll.setLayoutParams(new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            (int) offset
+                    ));
+                    vNestedOverscroll.requestLayout();
                     // No over-scroll is in-effect.
                     // This is synonymous with having (state == STATE_IDLE).
                 }

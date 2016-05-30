@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     android:background="#EDEAE3">
 
+    <View
+        android:id="@+id/vOverscroll"
+        android:background="@color/bernieColor"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
     <ScrollView android:id="@+id/svQuestions"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -17,6 +23,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <View
+                android:id="@+id/vNestedOverscroll"
+                android:background="@color/bernieColor"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
 
             <LinearLayout
                 android:id="@+id/llQuestion"
