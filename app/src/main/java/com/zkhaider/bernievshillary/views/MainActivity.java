@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.zkhaider.bernievshillary.views.fragments.QuestionsFragment;
 import com.zkhaider.bernievshillary.views.managers.IFragmentManager;
 import com.zkhaider.bernievshillary.R;
 import com.zkhaider.bernievshillary.utils.ScreenSizeHelper;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements IFragmentManager 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final String TAG_SPLASH = "tag_splash";
+    private static final String TAG_QUESTION = "tag_question";
 
     /*********************************************************************************************
      * Views
@@ -318,8 +320,8 @@ public class MainActivity extends AppCompatActivity implements IFragmentManager 
         for (int i = 0; i < viewChildCount; i++) {
             View view = flMainActivity.getChildAt(i);
             if (view instanceof ViewGroup) {
-                if ((ViewGroup) view instanceof FrameLayout) {
-                    // Do nothing
+                if (view instanceof FrameLayout) {
+                    // Do nothing we need the container
                 } else {
                     flMainActivity.removeView(view);
                 }
@@ -351,16 +353,18 @@ public class MainActivity extends AppCompatActivity implements IFragmentManager 
                         final SplashFragment splashFragment = (SplashFragment) getSupportFragmentManager().findFragmentByTag(TAG_SPLASH);
                         if (splashFragment != null) {
 
-                            getSupportFragmentManager().beginTransaction()
-                                    .remove(splashFragment)
-                                    .commit();
+                            if (!isFinishing()) {
+                                getSupportFragmentManager().beginTransaction()
+                                        .remove(splashFragment)
+                                        .commit();
 
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    animateText();
-                                }
-                            }, 100);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        animateText();
+                                    }
+                                }, 100);
+                            }
                         }
                     }
                 })
@@ -382,7 +386,12 @@ public class MainActivity extends AppCompatActivity implements IFragmentManager 
 
     private void showQuestionsFragment() {
 
+        // Set container alpha to 1.0f again
+        flContainer.setAlpha(1.0f);
 
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.flContainer, new QuestionsFragment(), TAG_QUESTION)
+                .commit();
     }
 
 }

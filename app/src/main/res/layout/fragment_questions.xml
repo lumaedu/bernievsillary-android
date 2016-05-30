@@ -1,10 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:background="#EDEAE3"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/flQuestions"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EDEAE3">
 
+    <ScrollView android:id="@+id/svQuestions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
 
+        <LinearLayout
+            android:id="@+id/llQuestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-</LinearLayout>
+            <LinearLayout
+                android:id="@+id/llQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="9"
+                android:alpha="0.0"
+                android:background="@color/bernieColor"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvQuestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:padding="32dp"
+                    android:text="1.) Do you support marriage equality for gay and lesbian couples?"
+                    android:textColor="@android:color/white"
+                    android:textSize="28sp"
+                    android:textStyle="bold"/>
+
+                <com.zkhaider.bernievshillary.widgets.CircleIndicatorsView
+                    android:id="@+id/ciDots"
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_weight="1"
+                    app:numCircles="10"/>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/flQuestionButtons"
+                android:alpha="0.0"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="10">
+
+                <Button
+                    android:id="@+id/tvNotSure"
+                    android:layout_width="100dp"
+                    android:layout_height="56dp"
+                    android:layout_gravity="center_horizontal|top"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:text="@string/not_sure"
+                    android:textColor="@android:color/tertiary_text_light"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/llButtons"
+        android:layout_gravity="center_horizontal|bottom"
+        android:orientation="horizontal"
+        android:alpha="0.0"
+        android:paddingBottom="16dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btYes"
+            android:text="YES"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_background"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:textSize="24sp"
+            android:layout_width="96dp"
+            android:layout_height="72dp"/>
+
+        <Button
+            android:id="@+id/btNo"
+            android:text="NO"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_background"
+            android:textSize="24sp"
+            android:layout_width="96dp"
+            android:layout_height="72dp"/>
+
+    </LinearLayout>
+
+</FrameLayout>

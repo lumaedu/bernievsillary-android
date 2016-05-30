@@ -47,4 +47,9 @@ dependencies {
      * used to display gifs and images
      */
     compile 'com.github.bumptech.glide:glide:3.6.1'
+
+    /**
+     * For Overscroll
+     */
+    compile 'me.everything:overscroll-decor-android:1.0.2'
 }
