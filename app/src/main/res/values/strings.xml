@@ -13,4 +13,6 @@
     <string name="agrees_with_you">Agrees with you</string>
     <string name="next_question">NEXT QUESTION</string>
     <string name="show_results">SHOW RESULTS</string>
+    <string name="bernie_sanders">Bernie Sanders</string>
+    <string name="hillary_clinton">Hillary Clinton</string>
 </resources>

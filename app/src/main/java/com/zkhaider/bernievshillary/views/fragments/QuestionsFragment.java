@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ import com.zkhaider.bernievshillary.R;
 import com.zkhaider.bernievshillary.data.Question;
 import com.zkhaider.bernievshillary.data.Questions;
 import com.zkhaider.bernievshillary.utils.JSONUtils;
+import com.zkhaider.bernievshillary.views.managers.IFragmentManager;
 import com.zkhaider.bernievshillary.widgets.CircleIndicatorsView;
 import com.zkhaider.bernievshillary.widgets.SimpleAnimationListener;
 
@@ -115,6 +117,11 @@ public class QuestionsFragment extends Fragment {
      *********************************************************************************************/
 
     /**
+     * Communication
+     */
+    private IFragmentManager mFragmentManager;
+
+    /**
      * Our questions
      */
     private List<Question> mQuestions = new ArrayList<>();
@@ -127,6 +134,12 @@ public class QuestionsFragment extends Fragment {
     /*********************************************************************************************
      * Fragment LifeCycle Methods
      *********************************************************************************************/
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.mFragmentManager = (IFragmentManager) activity;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -350,6 +363,13 @@ public class QuestionsFragment extends Fragment {
             // Animate in our buttons
             animateInButtons();
 
+        } else {
+
+            /**
+             * We are at show results we need to animate up and fade out the position views and
+             * show the results fragment
+             */
+            animateUpAndFadeAwayViews();
         }
     }
 
@@ -524,6 +544,38 @@ public class QuestionsFragment extends Fragment {
                 .alpha(1.0f)
                 .setInterpolator(new DecelerateInterpolator())
                 .setDuration(400)
+                .start();
+    }
+
+    private void animateUpAndFadeAwayViews() {
+
+        // Animate and translate bernie and hillary container
+        llBernieContainer.animate()
+                .alpha(0.0f)
+                .translationY(-500)
+                .setInterpolator(new DecelerateInterpolator())
+                .setDuration(600)
+                .start();
+        llHillaryContainer.animate()
+                .alpha(0.0f)
+                .translationY(-500)
+                .setInterpolator(new DecelerateInterpolator())
+                .setDuration(600)
+                .start();
+        btNextQuestion.animate()
+                .alpha(0.0f)
+                .translationY(-500)
+                .setDuration(600)
+                .setInterpolator(new DecelerateInterpolator())
+                .setListener(new SimpleAnimationListener() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+
+                        // Go to results fragment
+                        mFragmentManager.goToResultsFragment();
+                    }
+                })
                 .start();
     }
 

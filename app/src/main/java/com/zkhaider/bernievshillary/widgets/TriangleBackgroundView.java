@@ -77,6 +77,8 @@ public class TriangleBackgroundView extends View {
 
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TriangleBackgroundView);
         try {
+            mHeightRatio1 = a.getFloat(R.styleable.TriangleBackgroundView_ratio1, mHeightRatio1);
+            mHeightRatio2 = a.getFloat(R.styleable.TriangleBackgroundView_ratio2, mHeightRatio2);
             mForegroundColor = a.getColor(R.styleable.TriangleBackgroundView_foregroundColor, DEFAULT_HILLARY_COLOR);
             mBackgroundColor = a.getColor(R.styleable.TriangleBackgroundView_backgroundColor, DEFAULT_BERNIE_COLOR);
         } finally {

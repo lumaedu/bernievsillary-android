@@ -7,5 +7,6 @@ package com.zkhaider.bernievshillary.views.managers;
 public interface IFragmentManager {
 
     void removeSplash();
+    void goToResultsFragment();
 
 }

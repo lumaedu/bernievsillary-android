@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zkhaider.bernievshillary.views.fragments.QuestionsFragment;
+import com.zkhaider.bernievshillary.views.fragments.ResultsFragment;
 import com.zkhaider.bernievshillary.views.managers.IFragmentManager;
 import com.zkhaider.bernievshillary.R;
 import com.zkhaider.bernievshillary.utils.ScreenSizeHelper;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements IFragmentManager 
 
     private static final String TAG_SPLASH = "tag_splash";
     private static final String TAG_QUESTION = "tag_question";
+    private static final String TAG_RESULTS = "tag_results";
 
     /*********************************************************************************************
      * Views
@@ -370,6 +372,24 @@ public class MainActivity extends AppCompatActivity implements IFragmentManager 
                 })
                 .start();
 
+    }
+
+    @Override
+    public void goToResultsFragment() {
+
+        QuestionsFragment questionsFragment = (QuestionsFragment) getSupportFragmentManager().findFragmentByTag(TAG_QUESTION);
+        if (questionsFragment != null) {
+
+            if (!isFinishing()) {
+                getSupportFragmentManager().beginTransaction()
+                        .remove(questionsFragment)
+                        .commit();
+
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.flContainer, new ResultsFragment(), TAG_RESULTS)
+                        .commit();
+            }
+        }
     }
 
     /*********************************************************************************************
