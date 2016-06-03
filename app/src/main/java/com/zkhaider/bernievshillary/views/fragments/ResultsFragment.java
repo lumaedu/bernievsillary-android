@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -50,6 +52,7 @@ public class ResultsFragment extends Fragment {
     /**
      * ImageViews
      */
+    @Bind(R.id.ivWinner)                                public ImageView ivWinner;
     @Bind(R.id.ivRays)                                  public ImageView ivRays;
 
     /*********************************************************************************************
@@ -103,14 +106,24 @@ public class ResultsFragment extends Fragment {
 
     private void animateRays() {
 
-        /**
-         * We need to rotate the rays imageview to achieve a rotation effect
-         */
-        PropertyValuesHolder pvRotation = PropertyValuesHolder.ofFloat(View.ROTATION, 0, 360);
+        ivWinner.post(new Runnable() {
+            @Override
+            public void run() {
 
-        ObjectAnimator rotationAnimator = ObjectAnimator.ofPropertyValuesHolder(ivRays, pvRotation);
-        rotationAnimator.setRepeatCount(ValueAnimator.INFINITE);
-        rotationAnimator.setDuration(500);
-        rotationAnimator.start();
+                /**
+                 * We need to rotate the rays imageview to achieve a rotation effect
+                 */
+
+                PropertyValuesHolder pvRotation = PropertyValuesHolder.ofFloat(View.ROTATION, 0, 360);
+
+                ObjectAnimator rotationAnimator = ObjectAnimator.ofPropertyValuesHolder(ivRays, pvRotation);
+                rotationAnimator.setRepeatCount(ValueAnimator.INFINITE);
+                rotationAnimator.setDuration(2000);
+                rotationAnimator.setInterpolator(new LinearInterpolator());
+                rotationAnimator.start();
+            }
+        });
+
+
     }
 }

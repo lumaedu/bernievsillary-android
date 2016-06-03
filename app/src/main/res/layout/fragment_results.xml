@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             android:clipToPadding="false"
+             android:clipChildren="false"
              xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.zkhaider.bernievshillary.widgets.TriangleBackgroundView
@@ -20,8 +22,8 @@
         android:paddingEnd="32dp"
         android:scaleType="centerCrop"
         android:cropToPadding="false"
-        android:scaleY="1.2"
-        android:scaleX="1.2"
+        android:scaleY="1.9"
+        android:scaleX="1.9"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -34,6 +36,7 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/ivWinner"
             android:src="@drawable/bernie_big"
             android:layout_marginLeft="-150dp"
             android:layout_marginStart="-150dp"
@@ -142,4 +145,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</FrameLayout>
