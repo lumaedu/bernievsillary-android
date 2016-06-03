@@ -7,6 +7,7 @@ import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -23,12 +25,13 @@ import com.zkhaider.bernievshillary.R;
 import com.zkhaider.bernievshillary.data.Question;
 import com.zkhaider.bernievshillary.data.Questions;
 import com.zkhaider.bernievshillary.utils.JSONUtils;
-import com.zkhaider.bernievshillary.utils.ScreenSizeHelper;
 import com.zkhaider.bernievshillary.widgets.CircleIndicatorsView;
 import com.zkhaider.bernievshillary.widgets.SimpleAnimationListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -85,6 +88,27 @@ public class QuestionsFragment extends Fragment {
      * Buttons
      */
     @Bind(R.id.btNotSure)                           public Button btNotSure;
+    @Bind(R.id.btNextQuestion)                      public Button btNextQuestion;
+
+    /**
+     * Bernie Positions
+     */
+    @Bind(R.id.ivPastRecordIcon)                    public ImageView ivBerniePastRecordIcon;
+    @Bind(R.id.tvPastRecord)                        public TextView tvBerniePastRecord;
+    @Bind(R.id.tvPastRecordDetail)                  public TextView tvBerniePastRecordDetail;
+    @Bind(R.id.ivCurrentPositionIcon)               public ImageView ivBernieCurrentPositionIcon;
+    @Bind(R.id.tvCurrentPosition)                   public TextView tvBernieCurrentPosition;
+    @Bind(R.id.tvCurrentPositionDetail)             public TextView tvBernieCurrentPositionDetail;
+
+    /**
+     * Hillary Positions
+     */
+    @Bind(R.id.ivHillaryPastRecordIcon)                    public ImageView ivHillaryPastRecordIcon;
+    @Bind(R.id.tvHillaryPastRecord)                        public TextView tvHillaryPastRecord;
+    @Bind(R.id.tvHillaryPastRecordDetail)                  public TextView tvHillaryPastRecordDetail;
+    @Bind(R.id.ivHillaryCurrentPositionIcon)               public ImageView ivHillaryCurrentPositionIcon;
+    @Bind(R.id.tvHillaryCurrentPosition)                   public TextView tvHillaryCurrentPosition;
+    @Bind(R.id.tvHillaryCurrentPositionDetail)             public TextView tvHillaryCurrentPositionDetail;
 
     /*********************************************************************************************
      * Variables
@@ -117,6 +141,8 @@ public class QuestionsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_questions, container, false);
         ButterKnife.bind(this, view);
 
+        initializeQuestionViews();
+
         // Get the measured height of this view
         llQuestionTopView.postDelayed(new Runnable() {
             @Override
@@ -139,7 +165,27 @@ public class QuestionsFragment extends Fragment {
         // Load questions from raw json file
         String questionsJSON = JSONUtils.readJSONFromResources(getResources(), R.raw.questions);
         Questions questions = JSONUtils.convertToModel(questionsJSON, Questions.class);
-        mQuestions = questions != null ? questions.getQuestions() : null;
+
+        // Randomly pick 10 questions
+        List<Question> questionList = questions != null ? questions.getQuestions() : null;
+
+        if (questionList != null && mQuestions != null) {
+            Collections.shuffle(questionList);
+            for (int i = 0; i < 10; i++)
+                mQuestions.add(questionList.get(i));
+        }
+    }
+
+    private void initializeQuestionViews() {
+
+        // Get the first question
+        Question question = mQuestions.get(0);
+
+        // Set question
+        tvQuestion.setText(question.getQuestion());
+
+        // Set question into positions views
+        setQuestionIntoPositionViews(question);
     }
 
     private void initializeOverScrollListener() {
@@ -236,6 +282,7 @@ public class QuestionsFragment extends Fragment {
          * bernie vs. hillary comparison.
          */
 
+        animateInNextContainer();
     }
 
     @OnClick(R.id.btYes)
@@ -247,34 +294,7 @@ public class QuestionsFragment extends Fragment {
          * bernie vs. hillary comparison.
          */
 
-        // Hide circle indicators and show change your answer button
-        ciDots.setVisibility(View.INVISIBLE);
-        tvChangeYourAnswer.setVisibility(View.VISIBLE);
-
-        // Show legend
-        btNotSure.setVisibility(View.GONE);
-        llLegend.setVisibility(View.VISIBLE);
-
-        // Show the positions
-        animateInPositions();
-
-        // Immediately scroll to the bottom of the top view minus the frame container
-        svQuestions.post(new Runnable() {
-            @Override
-            public void run() {
-                int distanceToScroll = llQuestionTopView.getMeasuredHeight() -
-                        flCircleIndicatorsContainer.getMeasuredHeight() - flCircleIndicatorsContainer.getMeasuredHeight() / 2;
-
-                // Use an object animator to smooth scroll scrollview to position
-                ObjectAnimator scrollAnimator = ObjectAnimator.ofInt(svQuestions, "scrollY", 0, distanceToScroll);
-                scrollAnimator.setDuration(300);
-                scrollAnimator.setInterpolator(new DecelerateInterpolator());
-                scrollAnimator.start();
-
-                // Animate out buttons
-                animateOutButtons();
-            }
-        });
+        animateInNextContainer();
     }
 
     @OnClick(R.id.btNo)
@@ -286,34 +306,51 @@ public class QuestionsFragment extends Fragment {
          * bernie vs. hillary comparison.
          */
 
-        // Hide circle indicators and show change your answer button
-        ciDots.setVisibility(View.INVISIBLE);
-        tvChangeYourAnswer.setVisibility(View.VISIBLE);
+        animateInNextContainer();
+    }
 
-        // Show legend
-        btNotSure.setVisibility(View.GONE);
-        llLegend.setVisibility(View.VISIBLE);
+    @OnClick(R.id.btNextQuestion)
+    public void nextQuestionClicked() {
 
-        // Show the positions
-        animateInPositions();
+        if (mCurrentQuestionIndex < mQuestions.size()) {
 
-        // Immediately scroll to the bottom of the top view minus the frame container
-        svQuestions.post(new Runnable() {
-            @Override
-            public void run() {
-                int distanceToScroll = llQuestionTopView.getMeasuredHeight() -
-                        flCircleIndicatorsContainer.getMeasuredHeight() - flCircleIndicatorsContainer.getMeasuredHeight() / 2;
+            /**
+             * Snap scroll back to scroll y 0 increment circle incdicator dots and change position and
+             * other views
+             */
 
-                // Use an object animator to smooth scroll scrollview to posotion
-                ObjectAnimator scrollAnimator = ObjectAnimator.ofInt(svQuestions, "scrollY", 0, distanceToScroll);
-                scrollAnimator.setDuration(300);
-                scrollAnimator.setInterpolator(new DecelerateInterpolator());
-                scrollAnimator.start();
+            // Animate out the positions view
+            animateOutPositions();
 
-                // Animate out buttons
-                animateOutButtons();
-            }
-        });
+            // Scroll to the top
+            svQuestions.post(new Runnable() {
+                @Override
+                public void run() {
+
+                    // Use an object animator to smooth scroll scrollview back to 0
+                    int scrollY = svQuestions.getScrollY();
+                    ObjectAnimator scrollAnimator = ObjectAnimator.ofInt(svQuestions, "scrollY", scrollY, 0);
+                    scrollAnimator.setDuration(200);
+                    scrollAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+                    scrollAnimator.start();
+                }
+            });
+
+            // Go to next question
+            goToNextQuestion();
+
+            // Hide legend
+            llLegend.setVisibility(View.INVISIBLE);
+            btNotSure.setVisibility(View.VISIBLE);
+
+            // Animate in circle indicator dots
+            tvChangeYourAnswer.setVisibility(View.INVISIBLE);
+            animateInCiDots();
+
+            // Animate in our buttons
+            animateInButtons();
+
+        }
     }
 
     /*********************************************************************************************
@@ -368,6 +405,38 @@ public class QuestionsFragment extends Fragment {
             }
         });
         heightAnimator.start();
+    }
+
+    private void animateInNextContainer() {
+
+        // Hide circle indicators and show change your answer button
+        ciDots.setVisibility(View.INVISIBLE);
+        tvChangeYourAnswer.setVisibility(View.VISIBLE);
+
+        // Show legend
+        btNotSure.setVisibility(View.GONE);
+        llLegend.setVisibility(View.VISIBLE);
+
+        // Show the positions
+        animateInPositions();
+
+        // Immediately scroll to the bottom of the top view minus the frame container
+        svQuestions.post(new Runnable() {
+            @Override
+            public void run() {
+                int distanceToScroll = llQuestionTopView.getMeasuredHeight() -
+                        flCircleIndicatorsContainer.getMeasuredHeight() - flCircleIndicatorsContainer.getMeasuredHeight() / 2;
+
+                // Use an object animator to smooth scroll scrollview to posotion
+                ObjectAnimator scrollAnimator = ObjectAnimator.ofInt(svQuestions, "scrollY", 0, distanceToScroll);
+                scrollAnimator.setDuration(300);
+                scrollAnimator.setInterpolator(new DecelerateInterpolator());
+                scrollAnimator.start();
+
+                // Animate out buttons
+                animateOutButtons();
+            }
+        });
     }
 
     private void animateOutButtons() {
@@ -456,6 +525,250 @@ public class QuestionsFragment extends Fragment {
                 .setInterpolator(new DecelerateInterpolator())
                 .setDuration(400)
                 .start();
+    }
+
+    /*********************************************************************************************
+     * Accesory Methods
+     *********************************************************************************************/
+
+    private void goToNextQuestion() {
+
+        // Increment our index
+        mCurrentQuestionIndex++;
+
+        // Remove top question and pick question
+        if (mCurrentQuestionIndex < mQuestions.size()) {
+
+            ciDots.setCurrentCircleIndex(mCurrentQuestionIndex);
+
+            Question question = mQuestions.get(mCurrentQuestionIndex);
+            tvQuestion.setText(question.getQuestion());
+            tvQuestion.requestLayout();
+            setQuestionIntoPositionViews(question);
+
+            if (mCurrentQuestionIndex == mQuestions.size() - 1) {
+                btNextQuestion.setText(R.string.show_results);
+                mCurrentQuestionIndex++;
+            }
+        }
+    }
+
+    private void setQuestionIntoPositionViews(Question question) {
+
+        /**
+         * Set Bernie Views
+         */
+
+        int currentBerniePosition = question.getBernieSandersPosition();
+        int pastBerniePosition = question.getBernieSandersRecord();
+        String currentBernieDetail = question.getBerniePositionText();
+        String pastBernieDetail = question.getBernieSandersRecordText();
+
+        switch (currentBerniePosition) {
+            // Disagrees
+            case -1: {
+
+                // Set icon
+                ivBernieCurrentPositionIcon.setImageResource(R.drawable.icon_disagree);
+
+                // Set text view header color
+                int disagreeColor = getResources().getColor(R.color.disagree);
+                tvBernieCurrentPosition.setTextColor(disagreeColor);
+
+                // Set detail text
+                tvBernieCurrentPositionDetail.setText(currentBernieDetail);
+
+                break;
+            }
+            // Neutral
+            case 0: {
+
+                // Set icon
+                ivBernieCurrentPositionIcon.setImageResource(R.drawable.icon_neutral);
+
+                // Set text view header color
+                int neutralColor = getResources().getColor(R.color.neutral);
+                tvBernieCurrentPosition.setTextColor(neutralColor);
+
+                // Set detail text
+                tvBernieCurrentPositionDetail.setText(currentBernieDetail);
+
+                break;
+            }
+            // Agrees
+            case 1: {
+
+                // Set icon
+                ivBernieCurrentPositionIcon.setImageResource(R.drawable.icon_agree);
+
+                // Set text view header color
+                int agreeColor = getResources().getColor(R.color.agree);
+                tvBernieCurrentPosition.setTextColor(agreeColor);
+
+                // Set detail text
+                tvBernieCurrentPositionDetail.setText(currentBernieDetail);
+
+                break;
+            }
+        }
+
+        switch (pastBerniePosition) {
+            // Disagrees
+            case -1: {
+
+                // Set icon
+                ivBerniePastRecordIcon.setImageResource(R.drawable.icon_disagree);
+
+                // Set text view header color
+                int disagreeColor = getResources().getColor(R.color.disagree);
+                tvBerniePastRecord.setTextColor(disagreeColor);
+
+                // Set detail text
+                tvBerniePastRecordDetail.setText(pastBernieDetail);
+
+                break;
+            }
+            // Neutral
+            case 0: {
+
+                // Set icon
+                ivBerniePastRecordIcon.setImageResource(R.drawable.icon_neutral);
+
+                // Set text view header color
+                int neutralColor = getResources().getColor(R.color.neutral);
+                tvBerniePastRecord.setTextColor(neutralColor);
+
+                // Set detail text
+                tvBerniePastRecordDetail.setText(pastBernieDetail);
+
+                break;
+            }
+            // Agrees
+            case 1: {
+
+                // Set icon
+                ivBerniePastRecordIcon.setImageResource(R.drawable.icon_agree);
+
+                // Set text view header color
+                int agreeColor = getResources().getColor(R.color.agree);
+                tvBerniePastRecord.setTextColor(agreeColor);
+
+                // Set detail text
+                tvBerniePastRecordDetail.setText(pastBernieDetail);
+
+                break;
+            }
+        }
+
+        /**
+         * Set Hillary Views
+         */
+
+        int currentHillaryPosition = question.getHillaryClintonPosition();
+        int pastHillaryPosition = question.getHillaryClintonRecord();
+        String currentHillaryDetail = question.getHillaryClintonPositionText();
+        String pastHillaryDetail = question.getHillaryClintonRecordText();
+
+        switch (currentHillaryPosition) {
+            // Disagrees
+            case -1: {
+
+                // Set icon
+                ivHillaryCurrentPositionIcon.setImageResource(R.drawable.icon_disagree);
+
+                // Set text view header color
+                int disagreeColor = getResources().getColor(R.color.disagree);
+                tvHillaryCurrentPosition.setTextColor(disagreeColor);
+
+                // Set detail text
+                tvHillaryCurrentPositionDetail.setText(currentHillaryDetail);
+
+                break;
+            }
+            // Neutral
+            case 0: {
+
+                // Set icon
+                ivHillaryCurrentPositionIcon.setImageResource(R.drawable.icon_neutral);
+
+                // Set text view header color
+                int neutralColor = getResources().getColor(R.color.neutral);
+                tvHillaryCurrentPosition.setTextColor(neutralColor);
+
+                // Set detail text
+                tvHillaryCurrentPositionDetail.setText(currentHillaryDetail);
+
+                break;
+            }
+            // Agrees
+            case 1: {
+
+                // Set icon
+                ivHillaryCurrentPositionIcon.setImageResource(R.drawable.icon_agree);
+
+                // Set text view header color
+                int agreeColor = getResources().getColor(R.color.agree);
+                tvHillaryCurrentPosition.setTextColor(agreeColor);
+
+                // Set detail text
+                tvHillaryCurrentPositionDetail.setText(currentHillaryDetail);
+
+                break;
+            }
+        }
+
+        switch (pastHillaryPosition) {
+            // Disagrees
+            case -1: {
+
+                // Set icon
+                ivHillaryPastRecordIcon.setImageResource(R.drawable.icon_disagree);
+
+                // Set text view header color
+                int disagreeColor = getResources().getColor(R.color.disagree);
+                tvHillaryPastRecord.setTextColor(disagreeColor);
+
+                // Set detail text
+                tvHillaryPastRecordDetail.setText(pastHillaryDetail);
+
+                break;
+            }
+            // Neutral
+            case 0: {
+
+                // Set icon
+                ivHillaryPastRecordIcon.setImageResource(R.drawable.icon_neutral);
+
+                // Set text view header color
+                int neutralColor = getResources().getColor(R.color.neutral);
+                tvHillaryPastRecord.setTextColor(neutralColor);
+
+                // Set detail text
+                tvHillaryPastRecordDetail.setText(pastHillaryDetail);
+
+                break;
+            }
+            // Agrees
+            case 1: {
+
+                // Set icon
+                ivHillaryPastRecordIcon.setImageResource(R.drawable.icon_agree);
+
+                // Set text view header color
+                int agreeColor = getResources().getColor(R.color.agree);
+                tvHillaryPastRecord.setTextColor(agreeColor);
+
+                // Set detail text
+                tvHillaryPastRecordDetail.setText(pastHillaryDetail);
+
+                break;
+            }
+        }
+
+        llQuestionTopView.requestLayout();
+        flQuestionBottomView.requestLayout();
+        llPositionsContainer.requestLayout();
+        flCircleIndicatorsContainer.requestLayout();
     }
 
 }

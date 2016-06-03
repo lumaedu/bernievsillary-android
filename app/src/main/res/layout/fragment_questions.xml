@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/flQuestions"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EDEAE3">
@@ -39,13 +41,14 @@
                 android:background="@color/bernieColor"
                 android:orientation="vertical">
 
-                <TextView
+                <com.zkhaider.bernievshillary.widgets.AutofitTextView
                     android:id="@+id/tvQuestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:gravity="center"
                     android:padding="32dp"
+                    android:maxLines="5"
                     android:text="1.) Do you support marriage equality for gay and lesbian couples?"
                     android:textColor="@android:color/white"
                     android:textSize="28sp"

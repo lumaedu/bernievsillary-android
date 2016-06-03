@@ -9,6 +9,10 @@
 
     <color name="desert">#EDEAE3</color>
 
+    <color name="agree">#54B513</color>
+    <color name="disagree">#D0021B</color>
+    <color name="neutral">#7F7F7F</color>
+
     <color name="vpi__background_holo_dark">#ff000000</color>
     <color name="vpi__background_holo_light">#fff3f3f3</color>
     <color name="vpi__bright_foreground_holo_dark">@color/vpi__background_holo_light</color>

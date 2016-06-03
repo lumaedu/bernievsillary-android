@@ -1,6 +1,7 @@
 package com.zkhaider.bernievshillary.data;
 
 import com.google.gson.annotations.SerializedName;
+import com.zkhaider.bernievshillary.utils.JSONUtils;
 
 /**
  * Created by ZkHaider on 6/3/16.
@@ -27,7 +28,7 @@ public class Question {
         return mBerniePositionText;
     }
 
-    public int getBernieSandersPositions() {
+    public int getBernieSandersPosition() {
         return mBernieSandersPositions;
     }
 
@@ -79,6 +80,10 @@ public class Question {
         return mSortOrder;
     }
 
+    @Override
+    public String toString() {
+        return JSONUtils.convertToPrettyPrintJson(this, Question.class);
+    }
 }
 
 
