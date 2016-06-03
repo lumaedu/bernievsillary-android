@@ -20,9 +20,15 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.zkhaider.bernievshillary.R;
+import com.zkhaider.bernievshillary.data.Question;
+import com.zkhaider.bernievshillary.data.Questions;
+import com.zkhaider.bernievshillary.utils.JSONUtils;
 import com.zkhaider.bernievshillary.utils.ScreenSizeHelper;
 import com.zkhaider.bernievshillary.widgets.CircleIndicatorsView;
 import com.zkhaider.bernievshillary.widgets.SimpleAnimationListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -81,12 +87,28 @@ public class QuestionsFragment extends Fragment {
     @Bind(R.id.btNotSure)                           public Button btNotSure;
 
     /*********************************************************************************************
+     * Variables
+     *********************************************************************************************/
+
+    /**
+     * Our questions
+     */
+    private List<Question> mQuestions = new ArrayList<>();
+
+    /**
+     * Indexes for current question
+     */
+    private int mCurrentQuestionIndex = 0;
+
+    /*********************************************************************************************
      * Fragment LifeCycle Methods
      *********************************************************************************************/
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        initializeQuestions();
     }
 
     @Nullable
@@ -102,6 +124,25 @@ public class QuestionsFragment extends Fragment {
                 animateHeight();
             }
         }, 200);
+
+        initializeOverScrollListener();
+
+        return view;
+    }
+
+    /*********************************************************************************************
+     * Initialization Methods
+     *********************************************************************************************/
+
+    private void initializeQuestions() {
+
+        // Load questions from raw json file
+        String questionsJSON = JSONUtils.readJSONFromResources(getResources(), R.raw.questions);
+        Questions questions = JSONUtils.convertToModel(questionsJSON, Questions.class);
+        mQuestions = questions != null ? questions.getQuestions() : null;
+    }
+
+    private void initializeOverScrollListener() {
 
         // Initialize our scroll bounce effect
         VerticalOverScrollBounceEffectDecorator decor =
@@ -148,8 +189,6 @@ public class QuestionsFragment extends Fragment {
                 }
             }
         });
-
-        return view;
     }
 
     /*********************************************************************************************
@@ -159,6 +198,33 @@ public class QuestionsFragment extends Fragment {
     @OnClick(R.id.tvChangeYourAnswer)
     public void changeYourAnswerClicked() {
 
+        // Animate out the positions view
+        animateOutPositions();
+
+        // Scroll to the top
+        svQuestions.post(new Runnable() {
+            @Override
+            public void run() {
+
+                // Use an object animator to smooth scroll scrollview back to 0
+                int scrollY = svQuestions.getScrollY();
+                ObjectAnimator scrollAnimator = ObjectAnimator.ofInt(svQuestions, "scrollY", scrollY, 0);
+                scrollAnimator.setDuration(300);
+                scrollAnimator.setInterpolator(new DecelerateInterpolator());
+                scrollAnimator.start();
+            }
+        });
+
+        // Hide legend
+        llLegend.setVisibility(View.INVISIBLE);
+        btNotSure.setVisibility(View.VISIBLE);
+
+        // Animate in circle indicator dots
+        tvChangeYourAnswer.setVisibility(View.INVISIBLE);
+        animateInCiDots();
+
+        // Animate in our buttons
+        animateInButtons();
     }
 
     @OnClick(R.id.btNotSure)
@@ -199,7 +265,7 @@ public class QuestionsFragment extends Fragment {
                 int distanceToScroll = llQuestionTopView.getMeasuredHeight() -
                         flCircleIndicatorsContainer.getMeasuredHeight() - flCircleIndicatorsContainer.getMeasuredHeight() / 2;
 
-                // Use an object animator to smooth scroll scrollview to posotion
+                // Use an object animator to smooth scroll scrollview to position
                 ObjectAnimator scrollAnimator = ObjectAnimator.ofInt(svQuestions, "scrollY", 0, distanceToScroll);
                 scrollAnimator.setDuration(300);
                 scrollAnimator.setInterpolator(new DecelerateInterpolator());
@@ -310,6 +376,25 @@ public class QuestionsFragment extends Fragment {
                 .alpha(0.0f)
                 .setDuration(200)
                 .setInterpolator(new DecelerateInterpolator())
+                .setListener(new SimpleAnimationListener() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        llButtons.setVisibility(View.GONE);
+                    }
+                })
+                .start();
+    }
+
+    private void animateInButtons() {
+
+        llButtons.setAlpha(0.0f);
+        llButtons.setVisibility(View.VISIBLE);
+        llButtons.animate()
+                .alpha(1.0f)
+                .setDuration(200)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .setListener(null)
                 .start();
     }
 
@@ -324,45 +409,53 @@ public class QuestionsFragment extends Fragment {
                 .alpha(1.0f)
                 .translationY(-30)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
+                .setListener(null)
                 .start();
         llHillaryContainer.animate()
                 .alpha(1.0f)
                 .translationY(-30)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
+                .setListener(null)
                 .start();
     }
 
-    private void animateTopViewHeightChange() {
+    private void animateOutPositions() {
 
-        // Get from and to height
-        int fromHeight = llQuestionTopView.getMeasuredHeight();
-        int toHeight = (int) ScreenSizeHelper.convertDipToPx(getResources(), 56.0f);
-
-        // Create property value holders
-        PropertyValuesHolder pvHeight = PropertyValuesHolder.ofFloat("height", fromHeight, toHeight);
-
-        // Use a valueanimator to animate the changes
-        ValueAnimator heightAnimator = ValueAnimator.ofPropertyValuesHolder(pvHeight);
-        heightAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
-        heightAnimator.setDuration(400);
-        heightAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        PropertyValuesHolder pvAlpha = PropertyValuesHolder.ofFloat("alpha", 1.0f, 0.0f);
+        ValueAnimator alphaAnimator = ValueAnimator.ofPropertyValuesHolder(pvAlpha);
+        alphaAnimator.setDuration(200);
+        alphaAnimator.setInterpolator(new DecelerateInterpolator());
+        alphaAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
 
-                float height = (float) animation.getAnimatedValue("height");
                 float alpha = (float) animation.getAnimatedValue("alpha");
 
-                // Set new layout params
-                llQuestionTopView.setLayoutParams(new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        (int) height
-                ));
+                llBernieContainer.setAlpha(alpha);
+                llHillaryContainer.setAlpha(alpha);
 
-                llQuestionTopView.requestLayout();
+            }
+        });
+        alphaAnimator.addListener(new SimpleAnimationListener() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                llPositionsContainer.setVisibility(View.GONE);
             }
         });
 
-        heightAnimator.start();
+        alphaAnimator.start();
+    }
+
+    private void animateInCiDots() {
+
+        ciDots.setAlpha(0.0f);
+        ciDots.setVisibility(View.VISIBLE);
+        ciDots.animate()
+                .alpha(1.0f)
+                .setInterpolator(new DecelerateInterpolator())
+                .setDuration(400)
+                .start();
     }
 
 }
