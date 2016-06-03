@@ -1,6 +1,7 @@
 package com.zkhaider.bernievshillary.views.fragments;
 
 import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
@@ -192,14 +193,22 @@ public class QuestionsFragment extends Fragment {
         animateInPositions();
 
         // Immediately scroll to the bottom of the top view minus the frame container
-        int distanceToScroll = llQuestionTopView.getMeasuredHeight() - flCircleIndicatorsContainer.getMeasuredHeight();
-        svQuestions.scrollTo(0, distanceToScroll);
+        svQuestions.post(new Runnable() {
+            @Override
+            public void run() {
+                int distanceToScroll = llQuestionTopView.getMeasuredHeight() -
+                        flCircleIndicatorsContainer.getMeasuredHeight() - flCircleIndicatorsContainer.getMeasuredHeight() / 2;
 
-        // Animate out buttons
-        animateOutButtons();
+                // Use an object animator to smooth scroll scrollview to posotion
+                ObjectAnimator scrollAnimator = ObjectAnimator.ofInt(svQuestions, "scrollY", 0, distanceToScroll);
+                scrollAnimator.setDuration(300);
+                scrollAnimator.setInterpolator(new DecelerateInterpolator());
+                scrollAnimator.start();
 
-        // Animate height change
-//        animateTopViewHeightChange();
+                // Animate out buttons
+                animateOutButtons();
+            }
+        });
     }
 
     @OnClick(R.id.btNo)
@@ -223,14 +232,22 @@ public class QuestionsFragment extends Fragment {
         animateInPositions();
 
         // Immediately scroll to the bottom of the top view minus the frame container
-        int distanceToScroll = llQuestionTopView.getMeasuredHeight() - flCircleIndicatorsContainer.getMeasuredHeight();
-        svQuestions.scrollTo(0, distanceToScroll);
+        svQuestions.post(new Runnable() {
+            @Override
+            public void run() {
+                int distanceToScroll = llQuestionTopView.getMeasuredHeight() -
+                        flCircleIndicatorsContainer.getMeasuredHeight() - flCircleIndicatorsContainer.getMeasuredHeight() / 2;
 
-        // Animate out buttons
-        animateOutButtons();
+                // Use an object animator to smooth scroll scrollview to posotion
+                ObjectAnimator scrollAnimator = ObjectAnimator.ofInt(svQuestions, "scrollY", 0, distanceToScroll);
+                scrollAnimator.setDuration(300);
+                scrollAnimator.setInterpolator(new DecelerateInterpolator());
+                scrollAnimator.start();
 
-        // Animate height change
-//        animateTopViewHeightChange();
+                // Animate out buttons
+                animateOutButtons();
+            }
+        });
     }
 
     /*********************************************************************************************

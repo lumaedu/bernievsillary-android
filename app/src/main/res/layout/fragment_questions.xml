@@ -233,6 +233,7 @@
                             android:text="@string/bernie"
                             android:textSize="38sp"
                             android:textStyle="bold"
+                            android:textColor="#05243E"
                             android:layout_marginLeft="16dp"
                             android:layout_marginStart="16dp"
                             android:layout_width="wrap_content"
@@ -279,6 +280,7 @@
                                 <TextView
                                     android:id="@+id/tvPastRecordDetail"
                                     android:text="Because the debate limited to medical merijuana until recently, neither candidate had a substantial"
+                                    android:textColor="#0E0E0E"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
 
@@ -288,7 +290,7 @@
 
                         <LinearLayout
                             android:id="@+id/llCurrentPosition"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="32dp"
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -316,6 +318,7 @@
 
                                 <TextView
                                     android:id="@+id/tvCurrentPositionDetail"
+                                    android:textColor="#0E0E0E"
                                     android:text="Because the debate limited to medical merijuana until recently, neither candidate had a substantial"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
@@ -360,6 +363,7 @@
                             android:text="@string/hillary"
                             android:textSize="38sp"
                             android:textStyle="bold"
+                            android:textColor="#05243E"
                             android:layout_marginLeft="16dp"
                             android:layout_marginStart="16dp"
                             android:layout_width="wrap_content"
@@ -405,6 +409,7 @@
 
                                 <TextView
                                     android:id="@+id/tvHillaryPastRecordDetail"
+                                    android:textColor="#0E0E0E"
                                     android:text="Because the debate limited to medical merijuana until recently, neither candidate had a substantial"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
@@ -415,7 +420,7 @@
 
                         <LinearLayout
                             android:id="@+id/llHillaryCurrentPosition"
-                            android:layout_marginTop="16dp"
+                            android:layout_marginTop="32dp"
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -443,6 +448,7 @@
 
                                 <TextView
                                     android:id="@+id/tvHillaryCurrentPositionDetail"
+                                    android:textColor="#0E0E0E"
                                     android:text="Because the debate limited to medical merijuana until recently, neither candidate had a substantial"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
@@ -454,6 +460,22 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/btNextQuestion"
+                    android:layout_marginTop="56dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white"
+                    android:text="@string/next_question"
+                    android:background="@drawable/next_question_background"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
