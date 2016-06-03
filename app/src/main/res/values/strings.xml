@@ -5,4 +5,10 @@
     </string>
     <string name="get_started">Get Started</string>
     <string name="not_sure">NOT SURE</string>
+    <string name="bernie">Bernie</string>
+    <string name="past_record">PAST RECORD</string>
+    <string name="current_position">CURRENT POSITION</string>
+    <string name="hillary">Hillary</string>
+    <string name="change_your_answer">Change your answer</string>
+    <string name="agrees_with_you">Agrees with you</string>
 </resources>

@@ -304,6 +304,10 @@ public class CircleIndicatorsView extends View implements ViewIndicator {
      * Getter / Setter Methods
      *********************************************************************************************/
 
+    public void setCurrentCircleIndex(int currentCircleIndex) {
+        mCurrentCircleIndex = currentCircleIndex;
+    }
+
     public void setCentered(boolean centered) {
         mCentered = centered;
         invalidate();
