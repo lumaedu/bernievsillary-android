@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -628,7 +630,8 @@ public class QuestionsFragment extends Fragment {
                 tvBernieCurrentPosition.setTextColor(disagreeColor);
 
                 // Set detail text
-                tvBernieCurrentPositionDetail.setText(currentBernieDetail);
+                tvBernieCurrentPositionDetail.setText(Html.fromHtml(currentBernieDetail));
+                tvBernieCurrentPositionDetail.setMovementMethod(new LinkMovementMethod());
 
                 break;
             }
@@ -643,7 +646,8 @@ public class QuestionsFragment extends Fragment {
                 tvBernieCurrentPosition.setTextColor(neutralColor);
 
                 // Set detail text
-                tvBernieCurrentPositionDetail.setText(currentBernieDetail);
+                tvBernieCurrentPositionDetail.setText(Html.fromHtml(currentBernieDetail));
+                tvBernieCurrentPositionDetail.setMovementMethod(new LinkMovementMethod());
 
                 break;
             }
@@ -658,7 +662,8 @@ public class QuestionsFragment extends Fragment {
                 tvBernieCurrentPosition.setTextColor(agreeColor);
 
                 // Set detail text
-                tvBernieCurrentPositionDetail.setText(currentBernieDetail);
+                tvBernieCurrentPositionDetail.setText(Html.fromHtml(currentBernieDetail));
+                tvBernieCurrentPositionDetail.setMovementMethod(new LinkMovementMethod());
 
                 break;
             }
@@ -676,7 +681,8 @@ public class QuestionsFragment extends Fragment {
                 tvBerniePastRecord.setTextColor(disagreeColor);
 
                 // Set detail text
-                tvBerniePastRecordDetail.setText(pastBernieDetail);
+                tvBerniePastRecordDetail.setText(Html.fromHtml(pastBernieDetail));
+                tvBerniePastRecordDetail.setMovementMethod(new LinkMovementMethod());
 
                 break;
             }
@@ -691,7 +697,8 @@ public class QuestionsFragment extends Fragment {
                 tvBerniePastRecord.setTextColor(neutralColor);
 
                 // Set detail text
-                tvBerniePastRecordDetail.setText(pastBernieDetail);
+                tvBerniePastRecordDetail.setText(Html.fromHtml(pastBernieDetail));
+                tvBerniePastRecordDetail.setMovementMethod(new LinkMovementMethod());
 
                 break;
             }
@@ -706,7 +713,8 @@ public class QuestionsFragment extends Fragment {
                 tvBerniePastRecord.setTextColor(agreeColor);
 
                 // Set detail text
-                tvBerniePastRecordDetail.setText(pastBernieDetail);
+                tvBerniePastRecordDetail.setText(Html.fromHtml(pastBernieDetail));
+                tvBerniePastRecordDetail.setMovementMethod(new LinkMovementMethod());
 
                 break;
             }
@@ -733,7 +741,8 @@ public class QuestionsFragment extends Fragment {
                 tvHillaryCurrentPosition.setTextColor(disagreeColor);
 
                 // Set detail text
-                tvHillaryCurrentPositionDetail.setText(currentHillaryDetail);
+                tvHillaryCurrentPositionDetail.setText(Html.fromHtml(currentHillaryDetail));
+                tvHillaryCurrentPositionDetail.setMovementMethod(new LinkMovementMethod());
 
                 break;
             }
@@ -748,7 +757,8 @@ public class QuestionsFragment extends Fragment {
                 tvHillaryCurrentPosition.setTextColor(neutralColor);
 
                 // Set detail text
-                tvHillaryCurrentPositionDetail.setText(currentHillaryDetail);
+                tvHillaryCurrentPositionDetail.setText(Html.fromHtml(currentHillaryDetail));
+                tvHillaryCurrentPositionDetail.setMovementMethod(new LinkMovementMethod());
 
                 break;
             }
@@ -763,7 +773,8 @@ public class QuestionsFragment extends Fragment {
                 tvHillaryCurrentPosition.setTextColor(agreeColor);
 
                 // Set detail text
-                tvHillaryCurrentPositionDetail.setText(currentHillaryDetail);
+                tvHillaryCurrentPositionDetail.setText(Html.fromHtml(currentHillaryDetail));
+                tvHillaryCurrentPositionDetail.setMovementMethod(new LinkMovementMethod());
 
                 break;
             }
@@ -781,7 +792,8 @@ public class QuestionsFragment extends Fragment {
                 tvHillaryPastRecord.setTextColor(disagreeColor);
 
                 // Set detail text
-                tvHillaryPastRecordDetail.setText(pastHillaryDetail);
+                tvHillaryPastRecordDetail.setText(Html.fromHtml(pastHillaryDetail));
+                tvHillaryPastRecordDetail.setMovementMethod(new LinkMovementMethod());
 
                 break;
             }
@@ -796,7 +808,8 @@ public class QuestionsFragment extends Fragment {
                 tvHillaryPastRecord.setTextColor(neutralColor);
 
                 // Set detail text
-                tvHillaryPastRecordDetail.setText(pastHillaryDetail);
+                tvHillaryPastRecordDetail.setText(Html.fromHtml(pastHillaryDetail));
+                tvHillaryPastRecordDetail.setMovementMethod(new LinkMovementMethod());
 
                 break;
             }
@@ -811,7 +824,8 @@ public class QuestionsFragment extends Fragment {
                 tvHillaryPastRecord.setTextColor(agreeColor);
 
                 // Set detail text
-                tvHillaryPastRecordDetail.setText(pastHillaryDetail);
+                tvHillaryPastRecordDetail.setText(Html.fromHtml(pastHillaryDetail));
+                tvHillaryPastRecordDetail.setMovementMethod(new LinkMovementMethod());
 
                 break;
             }
