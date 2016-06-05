@@ -118,7 +118,7 @@ public class ResultsFragment extends Fragment {
 
                 ObjectAnimator rotationAnimator = ObjectAnimator.ofPropertyValuesHolder(ivRays, pvRotation);
                 rotationAnimator.setRepeatCount(ValueAnimator.INFINITE);
-                rotationAnimator.setDuration(2000);
+                rotationAnimator.setDuration(4000);
                 rotationAnimator.setInterpolator(new LinearInterpolator());
                 rotationAnimator.start();
             }
