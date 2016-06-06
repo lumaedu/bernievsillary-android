@@ -309,7 +309,7 @@ public class QuestionsFragment extends Fragment {
 
         // We want to check to see if there already exists a user response at a specific location
         // for the question
-        if (!ListUtils.isEmpty(mUserResponses) && mUserResponses.get(mCurrentQuestionIndex) != null) {
+        if (!ListUtils.isEmpty(mUserResponses) && mUserResponses.get(mCurrentQuestionIndex - 1) != null) {
 
             // Remove our current response and replace the user response there
             mUserResponses.remove(mCurrentQuestionIndex);
@@ -363,7 +363,7 @@ public class QuestionsFragment extends Fragment {
 
         // We want to check to see if there already exists a user response at a specific location
         // for the question
-        if (!ListUtils.isEmpty(mUserResponses) && mUserResponses.get(mCurrentQuestionIndex) != null) {
+        if (!ListUtils.isEmpty(mUserResponses) && mUserResponses.get(mCurrentQuestionIndex - 1) != null) {
 
             // Remove our current response and replace the user response there
             mUserResponses.remove(mCurrentQuestionIndex);
