@@ -28,6 +28,7 @@ import com.zkhaider.bernievshillary.data.Question;
 import com.zkhaider.bernievshillary.data.Questions;
 import com.zkhaider.bernievshillary.data.UserResponse;
 import com.zkhaider.bernievshillary.utils.JSONUtils;
+import com.zkhaider.bernievshillary.utils.ListUtils;
 import com.zkhaider.bernievshillary.utils.QuestionHelper;
 import com.zkhaider.bernievshillary.views.managers.IFragmentManager;
 import com.zkhaider.bernievshillary.widgets.CircleIndicatorsView;
@@ -308,7 +309,7 @@ public class QuestionsFragment extends Fragment {
 
         // We want to check to see if there already exists a user response at a specific location
         // for the question
-        if (mUserResponses.get(mCurrentQuestionIndex) != null) {
+        if (!ListUtils.isEmpty(mUserResponses) && mUserResponses.get(mCurrentQuestionIndex) != null) {
 
             // Remove our current response and replace the user response there
             mUserResponses.remove(mCurrentQuestionIndex);
@@ -335,7 +336,7 @@ public class QuestionsFragment extends Fragment {
 
         // We want to check to see if there already exists a user response at a specific location
         // for the question
-        if (mUserResponses.get(mCurrentQuestionIndex) != null) {
+        if (!ListUtils.isEmpty(mUserResponses) && mUserResponses.get(mCurrentQuestionIndex - 1) != null) {
 
             // Remove our current response and replace the user response there
             mUserResponses.remove(mCurrentQuestionIndex);
@@ -362,7 +363,7 @@ public class QuestionsFragment extends Fragment {
 
         // We want to check to see if there already exists a user response at a specific location
         // for the question
-        if (mUserResponses.get(mCurrentQuestionIndex) != null) {
+        if (!ListUtils.isEmpty(mUserResponses) && mUserResponses.get(mCurrentQuestionIndex) != null) {
 
             // Remove our current response and replace the user response there
             mUserResponses.remove(mCurrentQuestionIndex);
