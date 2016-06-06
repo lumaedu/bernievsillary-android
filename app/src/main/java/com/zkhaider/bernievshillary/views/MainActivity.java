@@ -375,7 +375,7 @@ public class MainActivity extends AppCompatActivity implements IFragmentManager 
     }
 
     @Override
-    public void goToResultsFragment() {
+    public void goToResultsFragment(Bundle bundle) {
 
         QuestionsFragment questionsFragment = (QuestionsFragment) getSupportFragmentManager().findFragmentByTag(TAG_QUESTION);
         if (questionsFragment != null) {
@@ -385,8 +385,11 @@ public class MainActivity extends AppCompatActivity implements IFragmentManager 
                         .remove(questionsFragment)
                         .commit();
 
+                ResultsFragment resultsFragment = new ResultsFragment();
+                resultsFragment.setArguments(bundle);
+
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.flContainer, new ResultsFragment(), TAG_RESULTS)
+                        .add(R.id.flContainer, resultsFragment, TAG_RESULTS)
                         .commit();
             }
         }

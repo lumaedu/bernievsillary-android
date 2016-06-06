@@ -10,21 +10,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.CycleInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zkhaider.bernievshillary.R;
 import com.zkhaider.bernievshillary.views.managers.IFragmentManager;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,6 +49,12 @@ public class ResultsFragment extends Fragment {
     @Bind(R.id.ivWinner)                                public ImageView ivWinner;
     @Bind(R.id.ivRays)                                  public ImageView ivRays;
 
+    /**
+     * TextViews
+     */
+    @Bind(R.id.tvHigherScore)                           public TextView tvHigherScore;
+    @Bind(R.id.tvLowerScore)                            public TextView tvLowerScore;
+
     /*********************************************************************************************
      * Variables
      *********************************************************************************************/
@@ -63,6 +63,12 @@ public class ResultsFragment extends Fragment {
      * Communication
      */
     private IFragmentManager mFragmentManager;
+
+    /**
+     * Bernie and Hillary Scores
+     */
+    private float mBernieScore = 0.0f;
+    private float mHillaryScore = 0.0f;
 
     /*********************************************************************************************
      * Fragment LifeCycle Methods
@@ -77,6 +83,9 @@ public class ResultsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Get our score values
+        initializeBundle();
     }
 
     @Nullable
@@ -91,7 +100,11 @@ public class ResultsFragment extends Fragment {
                 .centerCrop()
                 .into(ivRays);
 
+        // Animate our rays by rotating them
         animateRays();
+
+        // Go ahead and set our scores
+        setScores();
 
         return view;
     }
@@ -99,6 +112,18 @@ public class ResultsFragment extends Fragment {
     /*********************************************************************************************
      * Initialization Methods
      *********************************************************************************************/
+
+    private void initializeBundle() {
+
+        // Get our arguments
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+
+            // Get our bernie and hillary scores
+            this.mBernieScore = bundle.getFloat("bernieScore");
+            this.mHillaryScore = bundle.getFloat("hillaryScore");
+        }
+    }
 
     /*********************************************************************************************
      * UI Animations Methods
@@ -123,7 +148,27 @@ public class ResultsFragment extends Fragment {
                 rotationAnimator.start();
             }
         });
+    }
 
+    private void setScores() {
 
+        // Set our scores into the text view
+        if (mBernieScore > mHillaryScore) {
+
+            String higherScore = String.valueOf(mBernieScore * 100.0f) + "%";
+            tvHigherScore.setText(higherScore);
+
+            String lowerScore = String.valueOf(mHillaryScore * 100.0f) + "%";
+            tvLowerScore.setText(lowerScore);
+
+        } else {
+
+            String higherScore = String.valueOf(mHillaryScore * 100.0f) + "%";
+            tvHigherScore.setText(higherScore);
+
+            String lowerScore = String.valueOf(mBernieScore * 100.0f) + "%";
+            tvLowerScore.setText(lowerScore);
+
+        }
     }
 }

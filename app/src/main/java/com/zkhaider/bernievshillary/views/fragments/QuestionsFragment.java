@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,9 @@ import android.widget.TextView;
 import com.zkhaider.bernievshillary.R;
 import com.zkhaider.bernievshillary.data.Question;
 import com.zkhaider.bernievshillary.data.Questions;
+import com.zkhaider.bernievshillary.data.UserResponse;
 import com.zkhaider.bernievshillary.utils.JSONUtils;
+import com.zkhaider.bernievshillary.utils.QuestionHelper;
 import com.zkhaider.bernievshillary.views.managers.IFragmentManager;
 import com.zkhaider.bernievshillary.widgets.CircleIndicatorsView;
 import com.zkhaider.bernievshillary.widgets.SimpleAnimationListener;
@@ -35,7 +36,6 @@ import com.zkhaider.bernievshillary.widgets.SimpleAnimationListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Stack;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -127,11 +127,17 @@ public class QuestionsFragment extends Fragment {
      * Our questions
      */
     private List<Question> mQuestions = new ArrayList<>();
+    private Question mCurrentQuestion;
 
     /**
      * Indexes for current question
      */
     private int mCurrentQuestionIndex = 0;
+
+    /**
+     * User responses
+     */
+    private List<UserResponse> mUserResponses;
 
     /*********************************************************************************************
      * Fragment LifeCycle Methods
@@ -193,14 +199,17 @@ public class QuestionsFragment extends Fragment {
 
     private void initializeQuestionViews() {
 
+        // Set a new array for user responses
+        mUserResponses = new ArrayList<>(mQuestions.size());
+
         // Get the first question
-        Question question = mQuestions.get(0);
+        mCurrentQuestion = mQuestions.get(0);
 
         // Set question
-        tvQuestion.setText(question.getQuestion());
+        tvQuestion.setText(mCurrentQuestion.getQuestion());
 
         // Set question into positions views
-        setQuestionIntoPositionViews(question);
+        setQuestionIntoPositionViews(mCurrentQuestion);
     }
 
     private void initializeOverScrollListener() {
@@ -297,6 +306,21 @@ public class QuestionsFragment extends Fragment {
          * bernie vs. hillary comparison.
          */
 
+        // We want to check to see if there already exists a user response at a specific location
+        // for the question
+        if (mUserResponses.get(mCurrentQuestionIndex) != null) {
+
+            // Remove our current response and replace the user response there
+            mUserResponses.remove(mCurrentQuestionIndex);
+            mUserResponses.add(mCurrentQuestionIndex, new UserResponse(mCurrentQuestion, 0));
+
+            // Else we don't have a user response there
+        } else {
+
+            // Store our user response
+            mUserResponses.add(new UserResponse(mCurrentQuestion, 0));
+        }
+
         animateInNextContainer();
     }
 
@@ -309,6 +333,21 @@ public class QuestionsFragment extends Fragment {
          * bernie vs. hillary comparison.
          */
 
+        // We want to check to see if there already exists a user response at a specific location
+        // for the question
+        if (mUserResponses.get(mCurrentQuestionIndex) != null) {
+
+            // Remove our current response and replace the user response there
+            mUserResponses.remove(mCurrentQuestionIndex);
+            mUserResponses.add(mCurrentQuestionIndex, new UserResponse(mCurrentQuestion, 1));
+
+        // Else we don't have a user response there
+        } else {
+
+            // Store our user response
+            mUserResponses.add(new UserResponse(mCurrentQuestion, 1));
+        }
+
         animateInNextContainer();
     }
 
@@ -320,6 +359,21 @@ public class QuestionsFragment extends Fragment {
          * We also need to show a "change your answer button" where the ciDots are, and insert a
          * bernie vs. hillary comparison.
          */
+
+        // We want to check to see if there already exists a user response at a specific location
+        // for the question
+        if (mUserResponses.get(mCurrentQuestionIndex) != null) {
+
+            // Remove our current response and replace the user response there
+            mUserResponses.remove(mCurrentQuestionIndex);
+            mUserResponses.add(mCurrentQuestionIndex, new UserResponse(mCurrentQuestion, -1));
+
+            // Else we don't have a user response there
+        } else {
+
+            // Store our user response
+            mUserResponses.add(new UserResponse(mCurrentQuestion, -1));
+        }
 
         animateInNextContainer();
     }
@@ -575,7 +629,7 @@ public class QuestionsFragment extends Fragment {
                         super.onAnimationEnd(animation);
 
                         // Go to results fragment
-                        mFragmentManager.goToResultsFragment();
+                        calculateScoreAndGoToResultsFragment();
                     }
                 })
                 .start();
@@ -595,10 +649,10 @@ public class QuestionsFragment extends Fragment {
 
             ciDots.setCurrentCircleIndex(mCurrentQuestionIndex);
 
-            Question question = mQuestions.get(mCurrentQuestionIndex);
-            tvQuestion.setText(question.getQuestion());
+            mCurrentQuestion = mQuestions.get(mCurrentQuestionIndex);
+            tvQuestion.setText(mCurrentQuestion.getQuestion());
             tvQuestion.requestLayout();
-            setQuestionIntoPositionViews(question);
+            setQuestionIntoPositionViews(mCurrentQuestion);
 
             if (mCurrentQuestionIndex == mQuestions.size() - 1) {
                 btNextQuestion.setText(R.string.show_results);
@@ -835,6 +889,20 @@ public class QuestionsFragment extends Fragment {
         flQuestionBottomView.requestLayout();
         llPositionsContainer.requestLayout();
         flCircleIndicatorsContainer.requestLayout();
+    }
+
+    private void calculateScoreAndGoToResultsFragment() {
+
+        // Calculate our score
+        float bernieScore = QuestionHelper.calculateBernieScore(mUserResponses, mQuestions.size());
+        float hillaryScore = QuestionHelper.calculateHillaryScore(mUserResponses, mQuestions.size());
+
+        // Pass into a bundle
+        Bundle bundle = new Bundle();
+        bundle.putFloat("bernieScore", bernieScore);
+        bundle.putFloat("hillaryScore", hillaryScore);
+
+        mFragmentManager.goToResultsFragment(bundle);
     }
 
 }
