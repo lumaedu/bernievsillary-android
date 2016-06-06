@@ -17,8 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.zkhaider.bernievshillary.R;
 import com.zkhaider.bernievshillary.views.managers.IFragmentManager;
-
-import java.util.Locale;
+import com.zkhaider.bernievshillary.widgets.TriangleBackgroundView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,9 +43,16 @@ public class ResultsFragment extends Fragment {
      */
 
     /**
+     * Custom Views
+     */
+    @Bind(R.id.tv1)                                     public TriangleBackgroundView triangleViewTop;
+    @Bind(R.id.tv2)                                     public TriangleBackgroundView triangleViewBottom;
+
+    /**
      * ImageViews
      */
     @Bind(R.id.ivWinner)                                public ImageView ivWinner;
+    @Bind(R.id.ivLoser)                                 public ImageView ivLoser;
     @Bind(R.id.ivRays)                                  public ImageView ivRays;
 
     /**
@@ -161,6 +167,9 @@ public class ResultsFragment extends Fragment {
             String lowerScore = String.valueOf(mHillaryScore * 100) + "%";
             tvLowerScore.setText(lowerScore);
 
+            // If bernie won then change nothing in the view
+            // TODO : change nothing for the triangle views or images
+
         } else {
 
             String higherScore = String.valueOf(mHillaryScore * 100) + "%";
@@ -169,6 +178,23 @@ public class ResultsFragment extends Fragment {
             String lowerScore = String.valueOf(mBernieScore * 100) + "%";
             tvLowerScore.setText(lowerScore);
 
+            // Hillary won so go ahead and change the colors of the background triangles
+
+            // We want to change the foreground of the top triangle view to hillary color
+            triangleViewTop.setForegroundColor(getResources().getColor(R.color.hillaryColor));
+            triangleViewTop.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+
+            // Set the bottom triangle view to foreground transparent and background to bernie
+            triangleViewBottom.setForegroundColor(getResources().getColor(android.R.color.transparent));
+            triangleViewBottom.setBackgroundColor(getResources().getColor(R.color.bernieColor));
+
+            // Set bernie image on bottom and hillary image on the top
+            Glide.with(getActivity())
+                    .load(R.drawable.hillary_big)
+                    .into(ivWinner);
+            Glide.with(getActivity())
+                    .load(R.drawable.bernie_big)
+                    .into(ivLoser);
         }
     }
 }

@@ -104,6 +104,7 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/ivLoser"
             android:src="@drawable/hillary_big"
             android:layout_weight="1"
             android:layout_marginEnd="-24dp"

@@ -120,6 +120,23 @@ public class TriangleBackgroundView extends View {
         return mHeightRatio2;
     }
 
+    public int getBackgroundColor() {
+        return mBackgroundColor;
+    }
+
+    @Override
+    public void setBackgroundColor(int backgroundColor) {
+        this.mBackgroundColor = backgroundColor;
+    }
+
+    public int getForegroundColor() {
+        return mForegroundColor;
+    }
+
+    public void setForegroundColor(int foregroundColor) {
+        this.mForegroundColor = foregroundColor;
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
