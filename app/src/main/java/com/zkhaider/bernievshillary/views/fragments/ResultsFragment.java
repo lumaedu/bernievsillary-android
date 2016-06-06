@@ -73,8 +73,8 @@ public class ResultsFragment extends Fragment {
     /**
      * Bernie and Hillary Scores
      */
-    private int mBernieScore = 0;
-    private int mHillaryScore = 0;
+    private float mBernieScore = 0;
+    private float mHillaryScore = 0;
 
     /*********************************************************************************************
      * Fragment LifeCycle Methods
@@ -126,8 +126,8 @@ public class ResultsFragment extends Fragment {
         if (bundle != null) {
 
             // Get our bernie and hillary scores
-            this.mBernieScore = (int) bundle.getFloat("bernieScore");
-            this.mHillaryScore = (int) bundle.getFloat("hillaryScore");
+            this.mBernieScore = bundle.getFloat("bernieScore");
+            this.mHillaryScore = bundle.getFloat("hillaryScore");
         }
     }
 
@@ -161,10 +161,10 @@ public class ResultsFragment extends Fragment {
         // Set our scores into the text view
         if (mBernieScore > mHillaryScore) {
 
-            String higherScore = String.valueOf(mBernieScore * 100) + "%";
+            String higherScore = String.valueOf((int) (mBernieScore * 100)) + "%";
             tvHigherScore.setText(higherScore);
 
-            String lowerScore = String.valueOf(mHillaryScore * 100) + "%";
+            String lowerScore = String.valueOf((int) (mHillaryScore * 100)) + "%";
             tvLowerScore.setText(lowerScore);
 
             // If bernie won then change nothing in the view
@@ -172,10 +172,10 @@ public class ResultsFragment extends Fragment {
 
         } else {
 
-            String higherScore = String.valueOf(mHillaryScore * 100) + "%";
+            String higherScore = String.valueOf((int) (mHillaryScore * 100)) + "%";
             tvHigherScore.setText(higherScore);
 
-            String lowerScore = String.valueOf(mBernieScore * 100) + "%";
+            String lowerScore = String.valueOf((int) (mBernieScore * 100)) + "%";
             tvLowerScore.setText(lowerScore);
 
             // Hillary won so go ahead and change the colors of the background triangles
@@ -187,6 +187,14 @@ public class ResultsFragment extends Fragment {
             // Set the bottom triangle view to foreground transparent and background to bernie
             triangleViewBottom.setForegroundColor(getResources().getColor(android.R.color.transparent));
             triangleViewBottom.setBackgroundColor(getResources().getColor(R.color.bernieColor));
+
+            // Invalidate triangles
+            triangleViewTop.invalidate();
+            triangleViewBottom.invalidate();
+
+            // We need to flip the imageviews horizontally
+            ivWinner.setRotationY(180.0f);
+            ivLoser.setRotationY(180.0f);
 
             // Set bernie image on bottom and hillary image on the top
             Glide.with(getActivity())
