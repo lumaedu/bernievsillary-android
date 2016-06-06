@@ -102,4 +102,13 @@ public class UserResponse {
         return mQuestion;
     }
 
+    public boolean isDuplicateQuestionOf(Question question) {
+
+        // Get the other question id
+        String id = question.getId();
+
+        // Check if it matches this user response questions id
+        return mQuestion.getId().equals(id);
+    }
+
 }

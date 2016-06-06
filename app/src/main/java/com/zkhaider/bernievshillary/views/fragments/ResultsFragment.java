@@ -67,8 +67,8 @@ public class ResultsFragment extends Fragment {
     /**
      * Bernie and Hillary Scores
      */
-    private float mBernieScore = 0.0f;
-    private float mHillaryScore = 0.0f;
+    private int mBernieScore = 0;
+    private int mHillaryScore = 0;
 
     /*********************************************************************************************
      * Fragment LifeCycle Methods
@@ -120,8 +120,8 @@ public class ResultsFragment extends Fragment {
         if (bundle != null) {
 
             // Get our bernie and hillary scores
-            this.mBernieScore = bundle.getFloat("bernieScore");
-            this.mHillaryScore = bundle.getFloat("hillaryScore");
+            this.mBernieScore = (int) bundle.getFloat("bernieScore");
+            this.mHillaryScore = (int) bundle.getFloat("hillaryScore");
         }
     }
 
@@ -155,18 +155,18 @@ public class ResultsFragment extends Fragment {
         // Set our scores into the text view
         if (mBernieScore > mHillaryScore) {
 
-            String higherScore = String.valueOf(mBernieScore * 100.0f) + "%";
+            String higherScore = String.valueOf(mBernieScore * 100) + "%";
             tvHigherScore.setText(higherScore);
 
-            String lowerScore = String.valueOf(mHillaryScore * 100.0f) + "%";
+            String lowerScore = String.valueOf(mHillaryScore * 100) + "%";
             tvLowerScore.setText(lowerScore);
 
         } else {
 
-            String higherScore = String.valueOf(mHillaryScore * 100.0f) + "%";
+            String higherScore = String.valueOf(mHillaryScore * 100) + "%";
             tvHigherScore.setText(higherScore);
 
-            String lowerScore = String.valueOf(mBernieScore * 100.0f) + "%";
+            String lowerScore = String.valueOf(mBernieScore * 100) + "%";
             tvLowerScore.setText(lowerScore);
 
         }
