@@ -60,6 +60,8 @@ public class ResultsFragment extends Fragment {
      */
     @Bind(R.id.tvHigherScore)                           public TextView tvHigherScore;
     @Bind(R.id.tvLowerScore)                            public TextView tvLowerScore;
+    @Bind(R.id.tvWinner)                                public TextView tvWinner;
+    @Bind(R.id.tvLoser)                                 public TextView tvLoser;
 
     /*********************************************************************************************
      * Variables
@@ -195,6 +197,10 @@ public class ResultsFragment extends Fragment {
             // We need to flip the imageviews horizontally
             ivWinner.setRotationY(180.0f);
             ivLoser.setRotationY(180.0f);
+
+            // Change textviews
+            tvWinner.setText(R.string.hillary_clinton);
+            tvLoser.setText(R.string.bernie_sanders);
 
             // Set bernie image on bottom and hillary image on the top
             Glide.with(getActivity())
