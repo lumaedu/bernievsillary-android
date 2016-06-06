@@ -312,8 +312,8 @@ public class QuestionsFragment extends Fragment {
         if (!ListUtils.isEmpty(mUserResponses) && mUserResponses.get(mCurrentQuestionIndex - 1) != null) {
 
             // Remove our current response and replace the user response there
-            mUserResponses.remove(mCurrentQuestionIndex);
-            mUserResponses.add(mCurrentQuestionIndex, new UserResponse(mCurrentQuestion, 0));
+            mUserResponses.remove(mCurrentQuestionIndex - 1);
+            mUserResponses.add(mCurrentQuestionIndex - 1, new UserResponse(mCurrentQuestion, 0));
 
             // Else we don't have a user response there
         } else {
@@ -339,8 +339,8 @@ public class QuestionsFragment extends Fragment {
         if (!ListUtils.isEmpty(mUserResponses) && mUserResponses.get(mCurrentQuestionIndex - 1) != null) {
 
             // Remove our current response and replace the user response there
-            mUserResponses.remove(mCurrentQuestionIndex);
-            mUserResponses.add(mCurrentQuestionIndex, new UserResponse(mCurrentQuestion, 1));
+            mUserResponses.remove(mCurrentQuestionIndex - 1);
+            mUserResponses.add(mCurrentQuestionIndex - 1, new UserResponse(mCurrentQuestion, 1));
 
         // Else we don't have a user response there
         } else {
@@ -366,8 +366,8 @@ public class QuestionsFragment extends Fragment {
         if (!ListUtils.isEmpty(mUserResponses) && mUserResponses.get(mCurrentQuestionIndex - 1) != null) {
 
             // Remove our current response and replace the user response there
-            mUserResponses.remove(mCurrentQuestionIndex);
-            mUserResponses.add(mCurrentQuestionIndex, new UserResponse(mCurrentQuestion, -1));
+            mUserResponses.remove(mCurrentQuestionIndex - 1);
+            mUserResponses.add(mCurrentQuestionIndex - 1, new UserResponse(mCurrentQuestion, -1));
 
             // Else we don't have a user response there
         } else {
