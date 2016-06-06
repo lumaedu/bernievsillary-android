@@ -190,9 +190,9 @@ public class ResultsFragment extends Fragment {
             triangleViewBottom.setForegroundColor(getResources().getColor(android.R.color.transparent));
             triangleViewBottom.setBackgroundColor(getResources().getColor(R.color.bernieColor));
 
-            // Invalidate triangles
-            triangleViewTop.invalidate();
-            triangleViewBottom.invalidate();
+            // Invalidate triangles - TODO : fix
+//            triangleViewBottom.postInvalidate();
+//            triangleViewTop.postInvalidate();
 
             // We need to flip the imageviews horizontally
             ivWinner.setRotationY(180.0f);
