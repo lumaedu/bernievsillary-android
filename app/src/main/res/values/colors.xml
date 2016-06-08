@@ -5,6 +5,9 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="bernieColor">#3174BF</color>
+
+    <color name="bg_glass">#88ffffff</color>
+    <color name="bg_glass_full">#ffffff</color>
     <color name="hillaryColor">#4DA096</color>
 
     <color name="desert">#EDEAE3</color>
@@ -21,4 +24,5 @@
     <color name="vpi__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
     <color name="vpi__bright_foreground_inverse_holo_dark">@color/vpi__bright_foreground_holo_light</color>
     <color name="vpi__bright_foreground_inverse_holo_light">@color/vpi__bright_foreground_holo_dark</color>
+
 </resources>

@@ -19,4 +19,11 @@
         <item name="centered">true</item>
     </style>
 
+    <!-- BlurringView -->
+    <declare-styleable name="PxBlurringView">
+        <attr name="blurRadius" format="integer" />
+        <attr name="downsampleFactor" format="integer" />
+        <attr name="overlayColor" format="color" />
+    </declare-styleable>
+
 </resources>

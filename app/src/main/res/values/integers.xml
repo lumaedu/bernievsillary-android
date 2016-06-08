@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Blurring factors -->
+    <integer name="default_blur_radius">5</integer>
+    <integer name="default_downsample_factor">3</integer>
+
+</resources>

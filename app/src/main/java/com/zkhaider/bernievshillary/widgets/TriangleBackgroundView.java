@@ -127,7 +127,7 @@ public class TriangleBackgroundView extends View {
     @Override
     public void setBackgroundColor(int backgroundColor) {
         this.mBackgroundColor = backgroundColor;
-        this.mBackgroundPaint.setColor(mBackgroundColor);
+        this.mPaint.setColor(mBackgroundColor);
     }
 
     public int getForegroundColor() {
@@ -136,7 +136,7 @@ public class TriangleBackgroundView extends View {
 
     public void setForegroundColor(int foregroundColor) {
         this.mForegroundColor = foregroundColor;
-        this.mPaint.setColor(mForegroundColor);
+        this.mBackgroundPaint.setColor(foregroundColor);
     }
 
     @Override
