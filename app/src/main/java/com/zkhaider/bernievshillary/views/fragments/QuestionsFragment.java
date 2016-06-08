@@ -484,7 +484,7 @@ public class QuestionsFragment extends Fragment {
 
         llButtons.animate()
                 .alpha(0.0f)
-                .setDuration(200)
+                .setDuration(100)
                 .setInterpolator(new DecelerateInterpolator())
                 .setListener(new SimpleAnimationListener() {
                     @Override

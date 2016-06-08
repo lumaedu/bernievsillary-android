@@ -282,7 +282,7 @@ public class ResultsFragment extends Fragment {
         View rootView = getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
         View screenView = rootView.getRootView();
         screenView.setDrawingCacheEnabled(true);
-        Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
+        Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache(true));
         screenView.setDrawingCacheEnabled(false);
         return bitmap;
     }

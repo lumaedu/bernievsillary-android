@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zkhaider.bernievshillary.views.fragments.QuestionsFragment;
 import com.zkhaider.bernievshillary.views.fragments.ResultsFragment;
 import com.zkhaider.bernievshillary.views.managers.IFragmentManager;
@@ -70,6 +71,12 @@ public class MainActivity extends AppCompatActivity implements IFragmentManager 
     @Bind(R.id.ivOr)                                    public ImageView ivOr;
     @Bind(R.id.tvHillary)                               public TextView tvHillary;
 
+    /**
+     * ImageViews
+     */
+    @Bind(R.id.ivBernieBig)                             public ImageView ivBernieBig;
+    @Bind(R.id.ivHillaryBig)                            public ImageView ivHillaryBig;
+
     /*********************************************************************************************
      * Variables
      *********************************************************************************************/
@@ -88,8 +95,24 @@ public class MainActivity extends AppCompatActivity implements IFragmentManager 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        // Load images
+        loadImages();
+
         showSplash();
         mSplashShown = true;
+    }
+
+    /*********************************************************************************************
+     * Initialization Methods
+     *********************************************************************************************/
+
+    private void loadImages() {
+        Glide.with(this)
+                .load(R.drawable.bernie_big)
+                .into(ivBernieBig);
+        Glide.with(this)
+                .load(R.drawable.hillary_big)
+                .into(ivHillaryBig);
     }
 
     /*********************************************************************************************
@@ -252,8 +275,8 @@ public class MainActivity extends AppCompatActivity implements IFragmentManager 
 
         // Set ValueAnimator
         ValueAnimator maskAnimator = ValueAnimator.ofPropertyValuesHolder(pvHeightRatio1, pvHeightRatio2, pvHeight, pvButtonHeight);
-        maskAnimator.setInterpolator(new OvershootInterpolator());
-        maskAnimator.setDuration(400);
+        maskAnimator.setInterpolator(new OvershootInterpolator(1.2f));
+        maskAnimator.setDuration(600);
         maskAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
